@@ -1,0 +1,102 @@
+Exercícios:
+
+1. Bolha
+Utilizando vetores, ordene registros de acomodações do Airbnb aplicando o
+algoritmo de ordenação
+Bubblesort, considerando que a chave de pesquisa
+seja o atributo
+satisfação (overallSatisfaction). Em caso de empate, o segundo
+critério de ordenação deve ser o atributo
+id da acomodação (roomId).
+Utilize a classe
+Acomodacao especificada e desenvolvida em prática anterior.
+Seu programa deve ler um arquivo-texto chamado dados_airbnb.txt que, no
+VERDE, localiza-se na pasta /tmp. Você deve preencher um vetor de objetos
+da classe
+Acomodacao com os dados das diversas acomodações informadas
+nesse arquivo. A primeira linha desse arquivo deve ser descartada, pois
+apenas informa os diversos campos presentes em cada uma das linhas
+seguintes. Cada uma das linhas seguintes indica os dados de uma acomodação,
+separados por uma tabulação (‘\t’).
+Seu programa também deve ler a entrada padrão que apresenta, em sua
+primeira linha, a quantidade de acomodações que devem ser ordenadas.
+Em seguida, são informadas, ainda na entrada padrão, várias linhas sendo que
+cada uma contém o
+id da acomodação
+(roomId) cujos dados devem ser
+inseridos no vetor de acomodações a ser ordenado.
+A saída padrão corresponde aos registros ordenados, um por linha. Em cada
+linha da saída, escreva os dados do registro correspondente obedecendo o
+seguinte formato:
+[
+roomId ##
+hostId ##
+roomType ##
+country ##
+city ##
+neighbourhood ##
+reviews ##
+overallSatisfaction ##
+accommodates ##
+bedrooms ##
+price ##
+propertyType]
+Além disso, crie um arquivo de
+log na pasta corrente com o nome
+matrícula_bolha.txt com uma única linha contendo: seu número de matrícula,
+tempo de execução de seu algoritmo de ordenação (em milissegundos), número
+de comparações realizadas entre os elementos do vetor de acomodações e
+número de movimentações realizadas entre os elementos do vetor. Todas as
+informações desse arquivo de
+log devem ser separadas por uma tabulação ‘\t’.
+
+
+2. Ordenação por inserção
+Repita a questão de ordenação de acomodações do Airbnb por meio do método
+Bubblesort, contudo, aplicando o algoritmo de ordenação por inserção,
+considerando como chave de pesquisa o atributo que indica a
+quantidade de
+pessoas que a acomodação suporta (accomodates). Em caso de empate, o
+segundo critério de ordenação deve ser o atributo
+id da acomodação (roomId).
+O nome do arquivo de
+log dessa questão será matrícula_insercao.txt.
+
+
+3. Ordenação por seleção
+Repita a questão de ordenação de acomodações do Airbnb por meio do método
+Bubblesort, contudo, aplicando o algoritmo de ordenação por seleção,
+considerando que a chave de pesquisa seja o atributo
+país (country). Em caso
+de empate, o segundo critério de ordenação deve ser o atributo
+cidade (city) da
+acomodação. No caso de novo empate, o terceiro critério de ordenação deve ser
+o atributo
+vizinhança (neighbourhood) e, por fim, se necessário, o quarto
+critério de desempate deve ser o atributo
+id da acomodação (roomId).
+O nome do arquivo de
+log dessa questão será matrícula_selecao.txt.
+
+
+4.
+Heapsort
+Repita a questão de ordenação de acomodações do Airbnb por meio do método
+Bubblesort, contudo, aplicando o algoritmo de ordenação
+Heapsort,
+considerando que a chave de pesquisa seja o atributo
+revisões (reviews). Em
+caso de empate, o segundo critério de ordenação deve ser o atributo
+id da
+acomodação (roomId).
+O nome do arquivo de
+log dessa questão será matrícula_heapsort.txt.
+
+
+5.
+Mergesort
+Repita a questão de ordenação de acomodações do Airbnb por meio do método
+Bubblesort, contudo, aplicando o algoritmo de ordenação
+Mergesort,
+considerando que a chave de pesquisa seja o atributo
+id do anfitrião (hostId).
