@@ -1,4 +1,4 @@
-package metodosDeOrdenacao;
+//package metodosDeOrdenacao;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,11 +14,13 @@ public class App {
 
         Scanner scanner = new Scanner(System.in);
         String id;
-       int limite= scanner.nextInt();
+        String entradaLimite= scanner.nextLine();
+       int limite = Integer.parseInt(entradaLimite);
        Acomodacao[] acomodacoesSelecionadas = new Acomodacao[limite];
-        while (!(id = scanner.nextLine()).equals("FIM")) {
+       int i = 0;
+        while (i < limite) {
+            id = scanner.nextLine();
             int idBusca = Integer.parseInt(id);
-            int i = 0;
             for (Acomodacao a : acomodacoes) {
                 if (a.getRoomId() == idBusca) {
                     acomodacoesSelecionadas[i] = a.clone();
@@ -27,14 +29,20 @@ public class App {
                 }
             }
         }
-        //ADICIONAR AQUI A IMPLEMENTACAO DO MAIN DAS ORDENACOES
+      //  ADICIONAR AQUI A IMPLEMENTACAO DO MAIN DAS ORDENACOES
+      //   System.out.println("BUBBLESORT");
+        bubblesort bubble = new bubblesort();
+        bubble.ordenaroverallSatisfaction(acomodacoesSelecionadas);
+        for (Acomodacao a : acomodacoesSelecionadas) {
+            a.imprimir();
+        }
 
     }
 
     
     public static Acomodacao[] lerAcomodacoes() {
-    // String caminhoArquivo = "/tmp/dados_airbnb.txt";
-      String caminhoArquivo = "dados_airbnb.txt";
+     String caminhoArquivo = "/tmp/dados_airbnb.txt";
+    //  String caminhoArquivo = "dados_airbnb.txt";
         String linha;
         int contador = 0;
         
@@ -70,8 +78,8 @@ public class App {
 //bubblesort
  class bubblesort {
     public Acomodacao[] ordenaroverallSatisfaction(Acomodacao[] acomodacoes) {
-        for (int i = 0; i < acomodacoes.length; i++) {
-            for (int j = 0; j < acomodacoes.length - 1; j++) {
+        for (int i = 0; i < acomodacoes.length -1; i++) {
+            for (int j = 0; j < i; j++) {
                 if (acomodacoes[j].getOverallSatisfaction() > acomodacoes[j + 1].getOverallSatisfaction()) {
                     Acomodacao temp = acomodacoes[j];
                     acomodacoes[j] = acomodacoes[j + 1];
