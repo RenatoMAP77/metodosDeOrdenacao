@@ -9,6 +9,10 @@ import java.util.Scanner;
  * App
  */
 public class App {
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args) {
         Acomodacao[] acomodacoes = lerAcomodacoes();
 
@@ -30,9 +34,16 @@ public class App {
             }
         }
       //  ADICIONAR AQUI A IMPLEMENTACAO DO MAIN DAS ORDENACOES
-      //   System.out.println("BUBBLESORT");
-        bubblesort bubble = new bubblesort();
-        bubble.ordenaroverallSatisfaction(acomodacoesSelecionadas);
+      //bubblesort
+        // bubblesort bubble = new bubblesort();
+        // bubble.ordenaroverallSatisfaction(acomodacoesSelecionadas);
+        // for (Acomodacao a : acomodacoesSelecionadas) {
+        //     a.imprimir();
+        // }
+
+        //mergesort
+        mergesort merge = new mergesort();
+        merge.mergesortPorHostID(acomodacoesSelecionadas, 0, acomodacoesSelecionadas.length - 1);
         for (Acomodacao a : acomodacoesSelecionadas) {
             a.imprimir();
         }
@@ -40,6 +51,10 @@ public class App {
     }
 
     
+    
+    /** 
+     * @return Acomodacao[]
+     */
     public static Acomodacao[] lerAcomodacoes() {
      String caminhoArquivo = "/tmp/dados_airbnb.txt";
     //  String caminhoArquivo = "dados_airbnb.txt";
@@ -85,6 +100,13 @@ public class App {
                     acomodacoes[j] = acomodacoes[j + 1];
                     acomodacoes[j + 1] = temp;
                 }
+                else if (acomodacoes[j].getOverallSatisfaction() == acomodacoes[j + 1].getOverallSatisfaction()
+                 && acomodacoes[j].getRoomId() > acomodacoes[j + 1].getRoomId()){
+                    Acomodacao temp = acomodacoes[j];
+                    acomodacoes[j] = acomodacoes[j + 1];
+                    acomodacoes[j + 1] = temp;    
+                }
+
             }
         }
         return acomodacoes;
@@ -106,9 +128,68 @@ class heapsort {
 
 //mergesort
 class mergesort {
+    /*
+     * Método utilizado para ordenar as acomodações pelo HostID, e em caso de empate, será usado roomId.
+     * @param acomodacoes vetor de acomodacoes
+     * @param esquerda indice do vetor a esquerda
+     * @param direita indice do vetor a direita
+     */
+    public void mergesortPorHostID(Acomodacao[] acomodacoes, int esquerda, int direita){
+        if (esquerda < direita){
+            int meio = (esquerda + direita) / 2;
+            mergesortPorHostID(acomodacoes, esquerda, meio);
+            mergesortPorHostID(acomodacoes, meio + 1, direita);
+            intercalar(acomodacoes, esquerda, meio, direita);
+        }
+    }
+    /*
+     * Método utlizado para intercalar os vetores ordenados pelo HostID, e em caso de empate, será usado roomId.
+     * @param acomodacoes vetor de acomodacoes
+     * @param esquerda indice do vetor a esquerda
+     * @param meio indice do meio do vetor
+     * @param direita indice do vetor a direita
+     */
+    private void intercalar(Acomodacao[] acomodacoes, int esquerda, int meio, int direita) {
+        int n1, n2, i, j, k;
 
+        n1 = meio - esquerda + 1;
+        n2 = direita - meio;
+
+        Acomodacao[] L = new Acomodacao[n1];
+        Acomodacao[] R = new Acomodacao[n2];
+
+        for (i = 0; i < n1; i++) {
+            L[i] = acomodacoes[esquerda + i];
+        }
+
+        for (j = 0; j < n2; j++) {
+            R[j] = acomodacoes[meio + 1 + j];
+        }
+
+        for (i = 0, j = 0, k = esquerda; (i < n1 && j < n2); k++) {
+            if (L[i].getHostId() < R[j].getHostId()) {
+                acomodacoes[k] = L[i++];
+            } else if (L[i].getHostId() == R[j].getHostId() && L[i].getRoomId() < R[j].getRoomId()) {
+                acomodacoes[k] = L[i++];
+            } else {
+                acomodacoes[k] = R[j++];
+            }
+
+        }
+
+        if (i == n1) {
+            while (k <= direita) {
+                acomodacoes[k++] = R[j++];
+                {
+                }
+            }
+        } else {
+            while (k <= direita) {
+                acomodacoes[k++] = L[i++];
+            }
+        }
+    }
 }
-
 //quicksort
 class quicksort {
 
