@@ -1,7 +1,9 @@
 //package metodosDeOrdenacao;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -9,6 +11,14 @@ import java.util.Scanner;
  * App
  */
 public class App {
+
+    private static int contadorComparacoes = 0;
+    private static int contadorMovimentacoes = 0;
+    private static final String MATRICULA_RENATO = "817693";
+    private static final String MATRICULA_DUDA = "821837";
+    private static long tempoExecucao;
+    private static long tempoInicial;
+    private static long tempoFinal;
     
     /** 
      * @param args
@@ -34,20 +44,43 @@ public class App {
             }
         }
       //  ADICIONAR AQUI A IMPLEMENTACAO DO MAIN DAS ORDENACOES
+
+
       //bubblesort
         // bubblesort bubble = new bubblesort();
-        // bubble.ordenaroverallSatisfaction(acomodacoesSelecionadas);
+        // bubble.bubblesortOrdenaroverallSatisfaction(acomodacoesSelecionadas);
         // for (Acomodacao a : acomodacoesSelecionadas) {
         //     a.imprimir();
         // }
+        
 
         //mergesort
-        mergesort merge = new mergesort();
-        merge.mergesortPorHostID(acomodacoesSelecionadas, 0, acomodacoesSelecionadas.length - 1);
+        tempoInicial = System.nanoTime();
+        mergesortPorHostID(acomodacoesSelecionadas, 0, acomodacoesSelecionadas.length - 1);
+        tempoFinal = System.nanoTime();
         for (Acomodacao a : acomodacoesSelecionadas) {
             a.imprimir();
         }
+        tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
+        escritorLog("mergesort");
 
+        //heapsort
+    }
+
+    /*
+     * Método utilizado para escrever o arquivo de log
+     * writer 1 =  renato 
+     * writer 2 = duda
+     */
+    public static void escritorLog(String metodo){
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(MATRICULA_RENATO +"_" + metodo + ".txt"));
+          //  BufferedWriter writer2 = new BufferedWriter(new FileWriter(MATRICULA_DUDA +"_" + metodo + ".txt"));
+            writer.write(MATRICULA_RENATO + "\t" + tempoExecucao + "\t" + contadorComparacoes + "\t" + contadorMovimentacoes);
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
+        }
     }
 
     
@@ -57,7 +90,7 @@ public class App {
      */
     public static Acomodacao[] lerAcomodacoes() {
      String caminhoArquivo = "/tmp/dados_airbnb.txt";
-    //  String caminhoArquivo = "dados_airbnb.txt";
+   //String caminhoArquivo = "dados_airbnb.txt";
         String linha;
         int contador = 0;
         
@@ -87,12 +120,81 @@ public class App {
         return acomodacoes;
     }
     
+    //  MERGESORT
+    /** 
+     * Método utilizado para ordenar as acomodações pelo HostID, e em caso de empate, será usado roomId.
+     * @param acomodacoes  vetor de acomodacoes
+     * @param esquerda  indice do vetor a esquerda
+     * @param direita   indice do vetor a direita
+     */
+    public static void mergesortPorHostID(Acomodacao[] acomodacoes, int esquerda, int direita){
+        if (esquerda < direita){
+            int meio = (esquerda + direita) / 2;
+            mergesortPorHostID(acomodacoes, esquerda, meio);
+            mergesortPorHostID(acomodacoes, meio + 1, direita);
+            intercalar(acomodacoes, esquerda, meio, direita);
+        }
+    }
+    
+    
+    /*
+     * Método utlizado para intercalar os vetores ordenados pelo HostID, e em caso de empate, será usado roomId.
+     * @param acomodacoes vetor de acomodacoes
+     * @param esquerda indice do vetor a esquerda
+     * @param meio indice do meio do vetor
+     * @param direita indice do vetor a direita
+     */
+    private static void intercalar(Acomodacao[] acomodacoes, int esquerda, int meio, int direita) {
+        int n1, n2, i, j, k;
+
+        n1 = meio - esquerda + 1;
+        n2 = direita - meio;
+    
+        Acomodacao[] L = new Acomodacao[n1];
+        Acomodacao[] R = new Acomodacao[n2];
+    
+        for (i = 0; i < n1; i++) {
+            L[i] = acomodacoes[esquerda + i];
+            //VERIFICAR SE ISSO DEVERIA SER CONTADO COMO MOVIMENTACAO
+            contadorMovimentacoes++;
+        }
+    
+        for (j = 0; j < n2; j++) {
+            R[j] = acomodacoes[meio + 1 + j];
+            contadorMovimentacoes++;
+        }
+    
+        for (i = 0, j = 0, k = esquerda; (i < n1 && j < n2); k++) {
+            contadorComparacoes++;
+            if (L[i].getHostId() < R[j].getHostId()) {
+                acomodacoes[k] = L[i++];
+            } else if (L[i].getHostId() == R[j].getHostId() && L[i].getRoomId() < R[j].getRoomId()) {
+                acomodacoes[k] = L[i++];
+            } else {
+                acomodacoes[k] = R[j++];
+            }
+            contadorMovimentacoes++;
+        }
+    
+        if (i == n1) {
+            while (k <= direita) {
+                acomodacoes[k++] = R[j++];
+                contadorMovimentacoes++;
+            }
+        } else {
+            while (k <= direita) {
+                acomodacoes[k++] = L[i++];
+                contadorMovimentacoes++;
+            }
+        }
+    }
+    
     
 }
 
 //bubblesort
  class bubblesort {
-    public Acomodacao[] ordenaroverallSatisfaction(Acomodacao[] acomodacoes) {
+    public Acomodacao[] bubblesortOrdenaroverallSatisfaction(Acomodacao[] acomodacoes) {
         for (int i = 0; i < acomodacoes.length -1; i++) {
             for (int j = 0; j < i; j++) {
                 if (acomodacoes[j].getOverallSatisfaction() > acomodacoes[j + 1].getOverallSatisfaction()) {
@@ -128,67 +230,7 @@ class heapsort {
 
 //mergesort
 class mergesort {
-    /*
-     * Método utilizado para ordenar as acomodações pelo HostID, e em caso de empate, será usado roomId.
-     * @param acomodacoes vetor de acomodacoes
-     * @param esquerda indice do vetor a esquerda
-     * @param direita indice do vetor a direita
-     */
-    public void mergesortPorHostID(Acomodacao[] acomodacoes, int esquerda, int direita){
-        if (esquerda < direita){
-            int meio = (esquerda + direita) / 2;
-            mergesortPorHostID(acomodacoes, esquerda, meio);
-            mergesortPorHostID(acomodacoes, meio + 1, direita);
-            intercalar(acomodacoes, esquerda, meio, direita);
-        }
-    }
-    /*
-     * Método utlizado para intercalar os vetores ordenados pelo HostID, e em caso de empate, será usado roomId.
-     * @param acomodacoes vetor de acomodacoes
-     * @param esquerda indice do vetor a esquerda
-     * @param meio indice do meio do vetor
-     * @param direita indice do vetor a direita
-     */
-    private void intercalar(Acomodacao[] acomodacoes, int esquerda, int meio, int direita) {
-        int n1, n2, i, j, k;
-
-        n1 = meio - esquerda + 1;
-        n2 = direita - meio;
-
-        Acomodacao[] L = new Acomodacao[n1];
-        Acomodacao[] R = new Acomodacao[n2];
-
-        for (i = 0; i < n1; i++) {
-            L[i] = acomodacoes[esquerda + i];
-        }
-
-        for (j = 0; j < n2; j++) {
-            R[j] = acomodacoes[meio + 1 + j];
-        }
-
-        for (i = 0, j = 0, k = esquerda; (i < n1 && j < n2); k++) {
-            if (L[i].getHostId() < R[j].getHostId()) {
-                acomodacoes[k] = L[i++];
-            } else if (L[i].getHostId() == R[j].getHostId() && L[i].getRoomId() < R[j].getRoomId()) {
-                acomodacoes[k] = L[i++];
-            } else {
-                acomodacoes[k] = R[j++];
-            }
-
-        }
-
-        if (i == n1) {
-            while (k <= direita) {
-                acomodacoes[k++] = R[j++];
-                {
-                }
-            }
-        } else {
-            while (k <= direita) {
-                acomodacoes[k++] = L[i++];
-            }
-        }
-    }
+    
 }
 //quicksort
 class quicksort {
