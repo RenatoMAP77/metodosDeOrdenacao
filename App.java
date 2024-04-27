@@ -47,22 +47,25 @@ public class App {
 
 
       //bubblesort
-        // bubblesort bubble = new bubblesort();
-        // bubble.bubblesortOrdenaroverallSatisfaction(acomodacoesSelecionadas);
-        // for (Acomodacao a : acomodacoesSelecionadas) {
-        //     a.imprimir();
-        // }
-        
-
-        //mergesort
         tempoInicial = System.nanoTime();
-        mergesortPorHostID(acomodacoesSelecionadas, 0, acomodacoesSelecionadas.length - 1);
+        bubblesortOrdenaroverallSatisfaction(acomodacoesSelecionadas);
         tempoFinal = System.nanoTime();
         for (Acomodacao a : acomodacoesSelecionadas) {
             a.imprimir();
         }
         tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
-        escritorLog("mergesort");
+        escritorLog("bubblesort");
+        
+
+        //mergesort
+        // tempoInicial = System.nanoTime();
+        // mergesortPorHostID(acomodacoesSelecionadas, 0, acomodacoesSelecionadas.length - 1);
+        // tempoFinal = System.nanoTime();
+        // for (Acomodacao a : acomodacoesSelecionadas) {
+        //     a.imprimir();
+        // }
+        // tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
+        // escritorLog("mergesort");
 
         //heapsort
     }
@@ -89,8 +92,9 @@ public class App {
      * @return Acomodacao[]
      */
     public static Acomodacao[] lerAcomodacoes() {
-     String caminhoArquivo = "/tmp/dados_airbnb.txt";
-   //String caminhoArquivo = "dados_airbnb.txt";
+        //ALTERAR AQUI AO FAZER OS TESTES
+    // String caminhoArquivo = "/tmp/dados_airbnb.txt";
+     String caminhoArquivo = "dados_airbnb.txt";
         String linha;
         int contador = 0;
         
@@ -188,33 +192,27 @@ public class App {
             }
         }
     }
-    
-    
-}
-
-//bubblesort
- class bubblesort {
-    public Acomodacao[] bubblesortOrdenaroverallSatisfaction(Acomodacao[] acomodacoes) {
-        for (int i = 0; i < acomodacoes.length -1; i++) {
-            for (int j = 0; j < i; j++) {
-                if (acomodacoes[j].getOverallSatisfaction() > acomodacoes[j + 1].getOverallSatisfaction()) {
+    // BUBBLESORT
+    public static Acomodacao[] bubblesortOrdenaroverallSatisfaction(Acomodacao[] acomodacoes) {
+        for (int i = 0; i < acomodacoes.length - 1; i++) {
+            for (int j = 0; j < acomodacoes.length - 1 - i; j++) {
+                contadorComparacoes++;
+                if (acomodacoes[j].getOverallSatisfaction() > acomodacoes[j + 1].getOverallSatisfaction() ||
+                    (acomodacoes[j].getOverallSatisfaction() == acomodacoes[j + 1].getOverallSatisfaction() &&
+                     acomodacoes[j].getRoomId() > acomodacoes[j + 1].getRoomId())) {
+                    contadorMovimentacoes++;
                     Acomodacao temp = acomodacoes[j];
                     acomodacoes[j] = acomodacoes[j + 1];
                     acomodacoes[j + 1] = temp;
                 }
-                else if (acomodacoes[j].getOverallSatisfaction() == acomodacoes[j + 1].getOverallSatisfaction()
-                 && acomodacoes[j].getRoomId() > acomodacoes[j + 1].getRoomId()){
-                    Acomodacao temp = acomodacoes[j];
-                    acomodacoes[j] = acomodacoes[j + 1];
-                    acomodacoes[j + 1] = temp;    
-                }
-
             }
         }
         return acomodacoes;
     }
     
 }
+
+
 //insertion
  class insertion {
 
