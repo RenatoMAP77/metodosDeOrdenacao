@@ -47,17 +47,19 @@ public class App {
 
 
       //bubblesort
-        tempoInicial = System.nanoTime();
-        bubblesortOrdenaroverallSatisfaction(acomodacoesSelecionadas);
-        tempoFinal = System.nanoTime();
-        for (Acomodacao a : acomodacoesSelecionadas) {
-            a.imprimir();
-        }
-        tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
-        escritorLog("bubblesort");
+
+        // tempoInicial = System.nanoTime();
+        // bubblesortOrdenaroverallSatisfaction(acomodacoesSelecionadas);
+        // tempoFinal = System.nanoTime();
+        // for (Acomodacao a : acomodacoesSelecionadas) {
+        //     a.imprimir();
+        // }
+        // tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
+        // escritorLog("bubblesort");
         
 
         //mergesort
+
         // tempoInicial = System.nanoTime();
         // mergesortPorHostID(acomodacoesSelecionadas, 0, acomodacoesSelecionadas.length - 1);
         // tempoFinal = System.nanoTime();
@@ -68,12 +70,27 @@ public class App {
         // escritorLog("mergesort");
 
         //heapsort
+
+
+
+        //selection
+
+        tempoInicial = System.nanoTime();
+        selectionPais(acomodacoesSelecionadas);
+        tempoFinal = System.nanoTime();
+        for (Acomodacao a : acomodacoesSelecionadas) {
+            a.imprimir();
+        }
+        tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
+        escritorLog("selection");
     }
 
-    /*
+    
+    /** 
      * Método utilizado para escrever o arquivo de log
      * writer 1 =  renato 
      * writer 2 = duda
+     * @param metodo
      */
     public static void escritorLog(String metodo){
         try {
@@ -93,8 +110,8 @@ public class App {
      */
     public static Acomodacao[] lerAcomodacoes() {
         //ALTERAR AQUI AO FAZER OS TESTES
-    // String caminhoArquivo = "/tmp/dados_airbnb.txt";
-     String caminhoArquivo = "dados_airbnb.txt";
+    String caminhoArquivo = "/tmp/dados_airbnb.txt";
+     //String caminhoArquivo = "dados_airbnb.txt";
         String linha;
         int contador = 0;
         
@@ -141,6 +158,8 @@ public class App {
     }
     
     
+    
+    
     /*
      * Método utlizado para intercalar os vetores ordenados pelo HostID, e em caso de empate, será usado roomId.
      * @param acomodacoes vetor de acomodacoes
@@ -159,13 +178,12 @@ public class App {
     
         for (i = 0; i < n1; i++) {
             L[i] = acomodacoes[esquerda + i];
-            //VERIFICAR SE ISSO DEVERIA SER CONTADO COMO MOVIMENTACAO
-            contadorMovimentacoes++;
+            
         }
     
         for (j = 0; j < n2; j++) {
             R[j] = acomodacoes[meio + 1 + j];
-            contadorMovimentacoes++;
+           
         }
     
         for (i = 0, j = 0, k = esquerda; (i < n1 && j < n2); k++) {
@@ -192,6 +210,8 @@ public class App {
             }
         }
     }
+    
+    
     // BUBBLESORT
     public static Acomodacao[] bubblesortOrdenaroverallSatisfaction(Acomodacao[] acomodacoes) {
         for (int i = 0; i < acomodacoes.length - 1; i++) {
@@ -210,6 +230,48 @@ public class App {
         return acomodacoes;
     }
     
+
+    
+    
+    //SELECTION
+    /** 
+     * 1) Country
+     * 2)city
+     * 3) neighbourhood
+     * 4)roomId
+     * @param a vetor de acomodacoes
+     * @return Acomodacao[] vetor ordenado
+     */
+    public static Acomodacao[] selectionPais(Acomodacao[] a){
+        int menor;
+        for(int i=0; i< a.length -1;i++){
+        menor =i;
+        for (int j = i+1; j < a.length; j++) {
+            contadorComparacoes++;
+            
+            if (a[j].getCountry().compareTo(a[menor].getCountry()) < 0 ||
+            (a[j].getCountry().compareTo(a[menor].getCountry()) == 0 &&
+             a[j].getCity().compareTo(a[menor].getCity()) < 0) ||
+            (a[j].getCountry().compareTo(a[menor].getCountry()) == 0 &&
+             a[j].getCity().compareTo(a[menor].getCity()) == 0 &&
+             a[j].getNeighborhood().compareTo(a[menor].getNeighborhood()) < 0) ||
+            (a[j].getCountry().compareTo(a[menor].getCountry()) == 0 &&
+             a[j].getCity().compareTo(a[menor].getCity()) == 0 &&
+             a[j].getNeighborhood().compareTo(a[menor].getNeighborhood()) == 0 &&
+             a[j].getRoomId() < a[menor].getRoomId())){
+                
+                menor =j;
+            }
+        }
+        contadorMovimentacoes++;
+        Acomodacao temp = a[i];
+        a[i] = a[menor];
+        a[menor] = temp;
+    }
+    return a;
+    }
+
+
 }
 
 
@@ -217,19 +279,13 @@ public class App {
  class insertion {
 
  }
-//selection
-class selection {
 
-}
 //heapsort
 class heapsort {
 
 }
 
-//mergesort
-class mergesort {
-    
-}
+
 //quicksort
 class quicksort {
 
