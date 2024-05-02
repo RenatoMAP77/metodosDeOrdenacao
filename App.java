@@ -108,19 +108,12 @@ public class App {
 
         //quicksort
             
-        // System.out.println("Antes");
-        // for (Acomodacao a : acomodacoesSelecionadas) {
-        // //    a.imprimir();
-        // System.out.println(a.getPrice() + " " + a.getRoomType() + " " + a.getRoomId());
-        // }
         // tempoInicial = System.nanoTime();
         // Quicksort quicksort = new Quicksort();
         // quicksort.sort(acomodacoesSelecionadas);
         // tempoFinal = System.nanoTime();
-        // System.out.println("Depois");
         // for (Acomodacao a : acomodacoesSelecionadas) {
-        // //    a.imprimir();
-        // System.out.println(a.getPrice() + " " + a.getRoomType() + " " + a.getRoomId());
+        //     a.imprimir();
         // }
         // tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
         // escritorLog("quicksort");
@@ -410,10 +403,11 @@ public class App {
         array[i] = array[j];
         array[j] = temp;
     }
+}
 
-    //quicksort
-
-    public static void quicksort(Acomodacao[] array) {
+//quicksort
+class Quicksort {
+    public void sort(Acomodacao[] array) {
         quicksort(array, 0, array.length - 1);
     }
     
@@ -422,7 +416,7 @@ public class App {
     * @param int esq: início da partição a ser ordenada
     * @param int dir: fim da partição a ser ordenada
     */
-    private static void quicksort(Acomodacao[] array, int esq, int dir) {
+    private void quicksort(Acomodacao[] array, int esq, int dir) {
                 
         int part;
         if (esq < dir){
@@ -432,7 +426,7 @@ public class App {
         }
     }
                     
-    private static int particao(Acomodacao[] array, int inicio, int fim) {
+    private int particao(Acomodacao[] array, int inicio, int fim) {
             
         Acomodacao pivot = array[fim];
         int part = inicio - 1;
@@ -443,24 +437,22 @@ public class App {
             boolean roomtypeiigual = array[i].getRoomType().compareTo(pivot.getRoomType()) == 0;
             boolean roomidimenor = array[i].getRoomId() < pivot.getRoomId();
 
-            if (precoimenor || (precoiigual && roomtypeimenor || (roomtypeiigual && roomidimenor))) {
+            if (precoimenor || ((precoiigual && roomtypeimenor) || (precoiigual && roomtypeiigual && roomidimenor))) {
                 part++;
                 swap(array, part, i);
-            }
+            } 
         }
         part++;
         swap(array, part, fim);
         return (part);
     }
         
-    private static void swap(Acomodacao[] array, int i, int j) {
+    private void swap(Acomodacao[] array, int i, int j) {
               
         Acomodacao temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
-
-
 }
 
 
