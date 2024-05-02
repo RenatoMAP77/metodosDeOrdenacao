@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  * App
  */
-public class App {
+public class AppDuda {
 
     private static int contadorComparacoes = 0;
     private static int contadorMovimentacoes = 0;
@@ -29,9 +29,9 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         String id;
         String entradaLimite= scanner.nextLine();
-       int limite = Integer.parseInt(entradaLimite);
-       Acomodacao[] acomodacoesSelecionadas = new Acomodacao[limite];
-       int i = 0;
+        int limite = Integer.parseInt(entradaLimite);
+        Acomodacao[] acomodacoesSelecionadas = new Acomodacao[limite];
+        int i = 0;
         while (i < limite) {
             id = scanner.nextLine();
             int idBusca = Integer.parseInt(id);
@@ -70,44 +70,45 @@ public class App {
         // escritorLog("mergesort");
 
 
-        // //selection
+        //selection
 
-        // tempoInicial = System.nanoTime();
-        // selectionPais(acomodacoesSelecionadas);
-        // tempoFinal = System.nanoTime();
-        // for (Acomodacao a : acomodacoesSelecionadas) {
-        //     a.imprimir();
-        // }
-        // tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
-        // escritorLog("selection");
+        //tempoInicial = System.nanoTime();
+        //selectionPais(acomodacoesSelecionadas);
+        //tempoFinal = System.nanoTime();
+        //for (Acomodacao a : acomodacoesSelecionadas) {
+        //    a.imprimir();
+        //}
+        //tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
+        //escritorLog("selection");
+
 
         //insertion
 
-        // tempoInicial = System.nanoTime();
-        
-        // InsertionSort(acomodacoesSelecionadas);
-        // tempoFinal = System.nanoTime();
-        // for (Acomodacao a : acomodacoesSelecionadas) {
+        //tempoInicial = System.nanoTime();
+        //Insertion insertion = new Insertion();
+        //insertion.sort(acomodacoesSelecionadas);
+        //tempoFinal = System.nanoTime();
+        //for (Acomodacao a : acomodacoesSelecionadas) {
         //    a.imprimir();
-        // }
-        // tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
-        // escritorLog("insertion");
+        //}
+        //tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
+        //escritorLog("insertion");
 
 
-        // //heapsort 
-        
-        // tempoInicial = System.nanoTime();
-        
-        // heapsort(acomodacoesSelecionadas);
-        // tempoFinal = System.nanoTime();
-        // for (Acomodacao a : acomodacoesSelecionadas) {
+        //heapsort 
+
+        //tempoInicial = System.nanoTime();
+        //Heapsort heapsort = new Heapsort();
+        //heapsort.sort(acomodacoesSelecionadas);
+        //tempoFinal = System.nanoTime();
+        //for (Acomodacao a : acomodacoesSelecionadas) {
         //    a.imprimir();
-        // }
-        // tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
-        // escritorLog("heapsort");
+        //}
+        //tempoExecucao = (tempoFinal - tempoInicial) / 1000000;
+        //escritorLog("heapsort");
 
         //quicksort
-            
+
         // System.out.println("Antes");
         // for (Acomodacao a : acomodacoesSelecionadas) {
         // //    a.imprimir();
@@ -135,8 +136,8 @@ public class App {
      */
     public static void escritorLog(String metodo){
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(MATRICULA_RENATO +"_" + metodo + ".txt"));
-          //  BufferedWriter writer2 = new BufferedWriter(new FileWriter(MATRICULA_DUDA +"_" + metodo + ".txt"));
+            //BufferedWriter writer = new BufferedWriter(new FileWriter(MATRICULA_RENATO +"_" + metodo + ".txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(MATRICULA_DUDA +"_" + metodo + ".txt"));
             writer.write(MATRICULA_RENATO + "\t" + tempoExecucao + "\t" + contadorComparacoes + "\t" + contadorMovimentacoes);
             writer.close();
         } catch (IOException e) {
@@ -151,8 +152,8 @@ public class App {
      */
     public static Acomodacao[] lerAcomodacoes() {
         //ALTERAR AQUI AO FAZER OS TESTES
-    String caminhoArquivo = "/tmp/dados_airbnb.txt";
-     //String caminhoArquivo = "dados_airbnb.txt";
+    //String caminhoArquivo = "/tmp/dados_airbnb.txt";
+    String caminhoArquivo = "dados_airbnb.txt";
         String linha;
         int contador = 0;
         
@@ -313,8 +314,6 @@ public class App {
     }
 
     public static void InsertionSort(Acomodacao[] array) {
-        
-        
         for (int i = 1; i < array.length; i++) {
             Acomodacao tmp = array[i];
             int j = i - 1;
@@ -324,96 +323,27 @@ public class App {
                             array[j].getRoomId() > tmp.getRoomId()))) {
                 array[j + 1] = array[j];
                 j--;
-                contadorComparacoes++;
-                contadorMovimentacoes++;
             }
-    
+
             array[j + 1] = tmp;
-            contadorMovimentacoes++;
         }
-        
-
     }
+
+
+}
+
+
+
+
+//heapsort
+class Heapsort {
     
-    //heapsort
-    public static void heapsort(Acomodacao[] array) {
-
-        // Criando outro vetor, com todos os elementos do vetor anterior reposicionados (uma posição a frente)
-    // de forma a ignorar a posição zero	    
-          Acomodacao[] tmp = new Acomodacao[array.length + 1];
-          for(int i = 0; i < array.length; i++) {
-            tmp[i+1] = array[i];
-          }
-          
-          // Construção do heap
-          for(int tamHeap = (tmp.length-1)/2; tamHeap >= 1; tamHeap--) {
-              restaura(tmp, tamHeap, tmp.length - 1);
-          }
-        
-          
-          //Ordenação propriamente dita
-          int tamHeap = tmp.length - 1;
-          troca(tmp, 1, tamHeap--);
-          contadorMovimentacoes++;
-          while(tamHeap > 1) {
-              restaura(tmp, 1, tamHeap);
-             troca(tmp, 1, tamHeap--);
-                contadorMovimentacoes++;
-           }
-
-          //Alterar o vetor para voltar à posição zero
-          for(int i = 0; i < array.length; i++) {
-            array[i] = tmp[i+1];
-          }
 }
 
 
-    public static void restaura(Acomodacao[] array, int i, int tamHeap) {
-
-        int maior = i;
-        int filho = getMaiorFilho(array, i, tamHeap); 
-
-        contadorComparacoes++;
-        if((array[i].getReviews() < array[filho].getReviews()) || 
-            (array[i].getReviews() == array[filho].getReviews() && array[i].getRoomId() < array[filho].getRoomId())) {
-
-            maior = filho;
-            contadorMovimentacoes++;
-        }
-
-        if (maior != i) {
-            troca(array, i, maior);
-            contadorMovimentacoes++;
-            if (maior <= tamHeap/2)
-                restaura(array, maior, tamHeap);
-    }
-}
-
-   public static int getMaiorFilho(Acomodacao[] array, int i, int tamHeap) {
-
-        int filho;
-
-        if (2*i == tamHeap || (array[2*i].getReviews() > array[2*i+1].getReviews() || 
-            (array[2*i].getReviews() == array[2*i+1].getReviews() && array[2*i].getRoomId() > array[2*i+1].getRoomId()))) {
-
-            filho = 2*i;
-        } else {
-            filho = 2*i + 1;
-        }
-        contadorComparacoes++;
-        return filho;
-}
-
-    public static void troca(Acomodacao[] array, int i, int j) {
-      
-        Acomodacao temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-
-    //quicksort
-
-    public static void quicksort(Acomodacao[] array) {
+//quicksort
+class Quicksort {
+    public static void sort(Acomodacao[] array) {
         quicksort(array, 0, array.length - 1);
     }
     
@@ -459,11 +389,7 @@ public class App {
         array[i] = array[j];
         array[j] = temp;
     }
-
-
 }
-
-
 
 
 /**
